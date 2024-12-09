@@ -5,21 +5,36 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { useForm } from "react-hook-form"
 
-import { createProduct } from "../products.api";
+import { createProduct, updateProduct } from "../products.api";
 
-import { useRouter } from "next/navigation"
+import { useParams, useRouter } from "next/navigation"
 
 
 
-export  const ProductForm = () => {
-    const {register,handleSubmit}= useForm()
-    const router = useRouter()
+export  const ProductForm = ({product}:any) => {
+    const {register,handleSubmit}= useForm({
+      defaultValues: {
+        name: product?.name,
+        price: product?.price,
+        description: product?.description,
+        image: product?.image
+      }
+    })
+    const router = useRouter();
+    const params = useParams<{id: string}>();
     const onsubmit = handleSubmit(async data => {
-      console.log(data)
-      await createProduct({
-        ...data,
-        price: parseFloat(data.price),
-      });
+      if (params?.id) {
+        await updateProduct(params.id, {
+          ...data,
+          price: parseFloat(data.price),
+        });
+      }else{
+        await createProduct({
+          ...data,
+          price: parseFloat(data.price),
+        });
+      }
+      await createProduct(data)
       router.push('/')
       router.refresh()
     })
@@ -42,7 +57,7 @@ export  const ProductForm = () => {
     <Input
       {...register("image")}
     />
-    <Button>Create Product</Button>
+    <Button>{params.id ? 'Update Product': 'Create Product'}</Button>
   </form></div>
   )
 }

@@ -2,6 +2,7 @@ import { Button, buttonVariants } from "@/components/ui/button";
 import Link from "next/link";
 import { getProducts } from "./products/products.api";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import ProductCard from "./products/ProductCard";
 
 export const dynamic = "force-dynamic";
 export default async function Home() {
@@ -15,26 +16,9 @@ export default async function Home() {
           Create product
         </Link>
       </div>
-      <div className="grid grid-cols-4 gap-3">
-        {products.map((product) => (
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex justify-between">
-                {product.name}
-                <span className="text-sm font-semibold text-gray-500">
-                  ${product.price}
-                </span>
-              </CardTitle>
-            </CardHeader>
-            <img src={product.image} alt={product.name} width={200} height={200}/>
-            <CardContent>
-              <p>{product.description}</p>
-            </CardContent>
-            <CardFooter className="flex justify-between">
-            <Button className="mt-5">Comprar</Button>
-            <Button className="mt-5" variant={"destructive"}>Eliminar</Button>
-            </CardFooter>
-          </Card>
+      <div className="grid xl:grid-cols-4 grid-cols-2 gap-3">
+        {products.map((product:any) => (
+          <ProductCard key={product.id} product={product} />
         ))}
       </div>
     </>
