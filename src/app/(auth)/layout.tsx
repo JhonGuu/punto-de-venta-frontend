@@ -4,7 +4,7 @@ export default function authLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <body>
         <main className="flex min-h-screen items-center justify-center">
             

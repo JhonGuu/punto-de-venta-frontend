@@ -9,8 +9,13 @@ import {
 } from "@/components/ui/card";
 import { deleteProduct } from "./products.api";
 import { useRouter } from "next/navigation";
+import { ProductData } from "./products.data";
 
-export const ProductCard = ({ product }: any) => {
+type Props = {
+  product: ProductData;
+};
+
+export const ProductCard = ({ product }: Props) => {
   const router = useRouter();
   async function handleRemoveProduct(id: string) {
     await deleteProduct(id);
@@ -49,7 +54,7 @@ export const ProductCard = ({ product }: any) => {
         variant="destructive"
         onClick={(e) => {
           e.stopPropagation();
-          handleRemoveProduct(product.id);
+          handleRemoveProduct(String(product.id));
         }}
       >
         Eliminar
